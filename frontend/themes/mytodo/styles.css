@@ -1,20 +1,43 @@
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
 body{
     text-align: center;
+    background-color: #424549;
+    color:#7289da;
+    font-weight: bold;
+
 
 
 }
 
-
+html {
+    background-color: #424549;
+}
 
 .CollegeDisplayDiv{
-    width:50%;
-    height: 10%;
-    
-    border: 2px;
-    border-style: solid;
-    text-align: left;
-    margin:auto;
+
+    margin: auto;
+    width:70%;
+    height: 40%;
+
+
 
 }
+.BackgroundDiv{
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    text-align: center;
+    background-color: #424549;
+    color:#7289da;
+    font-weight: bold;
+    width: 100%;
+    
+}
+.linkToCollege{
+   cursor: pointer;
+
+}
+
+
+
+   
 

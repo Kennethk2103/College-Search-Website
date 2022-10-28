@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import org.springframework.stereotype.Component;
+
 
 
 public class zipTable implements Serializable{

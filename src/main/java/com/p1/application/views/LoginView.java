@@ -1,5 +1,6 @@
 package com.p1.application.views;
 
+import com.p1.application.service.AcountService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
@@ -13,19 +14,19 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Login")
-@Route(value = "")
+@Route(value = "LoginView")
 public class LoginView extends VerticalLayout{
     
     private  TextField emailField = new TextField();
     private PasswordField passwordField = new PasswordField();
-
+    VerticalLayout mainLayout;
 
 
    public LoginView(){
     addClassName("LoginView");
     setSizeFull();
     
-    VerticalLayout mainLayout = new VerticalLayout();
+    mainLayout= new VerticalLayout();
     mainLayout.setAlignItems(Alignment.CENTER);
     mainLayout.setJustifyContentMode(JustifyContentMode.CENTER);
    
@@ -33,7 +34,7 @@ public class LoginView extends VerticalLayout{
     mainLayout.add(title);
     
     passwordField.setLabel("Password");
-    passwordField.setHelperText("A password must be at least 8 characters. It has to have at least one letter and one digit.");
+    passwordField.setHelperText("A password must be at least 8 characters. It has to have at least one upper case letter,one lower case and one digit.");
     passwordField.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{8}.*$");
     passwordField.setErrorMessage("Not a valid password");
 
@@ -57,11 +58,16 @@ public class LoginView extends VerticalLayout{
          Notification.show("Password must be inputted");
       }
       
-      if(emailField.getValue().equals(" ")){
+      else if(emailField.getValue().equals(" ")){
          Notification.show("Email must be inputted");
       }
+      else if(!AcountService.passwordSatisfactory(passwordField.getValue())){
+         Notification.show("Password dosent meet required specifications");
+      }
+
+
       else{
-         SigninBtn.getUI().ifPresent(ui ->ui.navigate("MainView"));
+         SigninBtn.getUI().ifPresent(ui ->ui.navigate("CatalogView"));
       }
 
 
@@ -78,12 +84,12 @@ public class LoginView extends VerticalLayout{
     btnsLayout.add(SigninBtn,SignupBtn);
 
     mainLayout.add(btnsLayout);
+    
     add(mainLayout);
 
 
-
-
    }
+
 
  
 }

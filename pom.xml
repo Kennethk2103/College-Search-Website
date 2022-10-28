@@ -105,6 +105,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+        <groupId>org.apache.commons</groupId>
+         <artifactId>commons-text</artifactId>
+         <version>1.10.0</version>
+         </dependency>
+
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
@@ -120,6 +126,11 @@
                     <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+        <groupId>org.xerial</groupId>
+        <artifactId>sqlite-jdbc</artifactId>
+        <version>3.39.3.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.bonigarcia</groupId>

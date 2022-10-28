@@ -5,8 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.stereotype.Repository;
 public class AccountSQL {
-	public static void main(String[] args) {
+	public AccountSQL(){
 		Connection connection = null; 
 		
 		try{
@@ -21,7 +22,7 @@ public class AccountSQL {
 					+ "UserName VARCHAR(50) NOT NULL UNIQUE, "
 					+ "Password VARCHAR(50) NOT NULL, "
 					+ "Email varchar(50) NOT NULL UNIQUE, "
-					+ "Favorites VARCHAR(50), "
+					+ "Favorites VARCHAR(100), "
 					+ ")");
 			
 			statement.executeUpdate("INSERT INTO users "

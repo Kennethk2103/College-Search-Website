@@ -1,5 +1,7 @@
 package com.p1.application.views;
+import com.p1.application.service.AcountService;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -26,7 +28,7 @@ public class SignUpView extends VerticalLayout{
 
         PasswordField passwordField1 = new PasswordField();
         passwordField1.setLabel("Password");
-        passwordField1.setHelperText("A password must be at least 8 characters. It has to have at least one letter and one digit.");
+        passwordField1.setHelperText("A password must be at least 8 characters. It has to have at least one upper case letter,one lower case and one digit.");
         passwordField1.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{8}.*$");
         passwordField1.setErrorMessage("Not a valid password");
 
@@ -44,9 +46,35 @@ public class SignUpView extends VerticalLayout{
         Signinbtn.addClickListener(e ->Signinbtn.getUI().ifPresent(ui ->ui.navigate("")));
     
         Button SignupBtn = new Button("Sign Up");
+        SignupBtn.addClickListener(e ->{
+  
+
+            if(passwordField1.getValue().equals("")){
+               Notification.show("Password must be inputted");
+            }
+            
+            else if(emailField.getValue().equals("")){
+               Notification.show("Email must be inputted");
+            }
+            else if(!AcountService.passwordSatisfactory(passwordField1.getValue())){
+               Notification.show("Password dosent meet required specifications");
+            }
+            else if(!passwordField1.getValue().equals(passwordField2.getValue())){
+                Notification.show("Passwords must be equal");
+            }
+      
+      
+            else{
+               SignupBtn.getUI().ifPresent(ui ->ui.navigate("CatalogView"));
+            }
+      
+      
+      
+          });
         h1.add(Signinbtn,SignupBtn);
         mainLayout.add(accountLayout,h1);
         add(mainLayout);
+       
     
     
     

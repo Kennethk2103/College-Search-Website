@@ -1,6 +1,8 @@
 package com.p1.application.service;
 
 
+import org.springframework.stereotype.Service;
+
 import com.p1.application.data.Zip;
 import com.p1.application.data.zipTable;
 
