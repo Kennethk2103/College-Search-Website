@@ -5,8 +5,6 @@ import com.vaadin.flow.component.page.Page;
 
 public class HtmlEditor {
 
-
-
     public static void addAttribute(HtmlComponent component, String atr){
         String atr2 = atr.replaceAll("\"", "");
         String [] arr= atr2.split(" ");
@@ -27,21 +25,4 @@ public class HtmlEditor {
         }
     }
 
-    // public static void addAttribute(Page page, HtmlComponent component, String atr){
-    //     String [] arr= atr.split(" ");
-    //     for(int i =0;i<arr.length;i++){
-    //         if(arr[i].contains("id")){
-    //             String arr2[] = arr[i].split("=");
-    //             component.setId(arr2[1]);
-    //             arr[i]="";
-    //         }
-    //     }
-
-    //     String JQuerry = "$('#" + component.getId()+ "').attr(";
-    //     for(int i =0;i<arr.length;i++){
-    //         JQuerry+="'" + arr[i] +"',";
-    //     }
-    //     JQuerry+=");";
-    //     page.executeJs(JQuerry);
-    // }
 }

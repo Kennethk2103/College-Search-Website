@@ -29,7 +29,6 @@ public class Application implements AppShellConfigurator {
     public static void main(String[] args) {
         CollegeSQL.createCollegeSQL();
         Jsonpasser.dataFromWeb();
-        System.out.println("At spring app");
         SpringApplication.run(Application.class, args);
     }
 

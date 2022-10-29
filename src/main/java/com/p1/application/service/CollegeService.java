@@ -39,7 +39,7 @@ public class CollegeService {
             ResultSet rs = preState.executeQuery();
 
             while(rs.next()){
-                College tempCollege= new College(rs.getInt("ID"), rs.getString("Name"));
+                College tempCollege= new College(rs.getInt("ID"), rs.getString("Name"),rs.getDouble("read25"),rs.getDouble("read75"),rs.getDouble("math25"),rs.getDouble("math75"));
                 bundle.getList().add(tempCollege);
 
             }                            
@@ -56,13 +56,13 @@ public class CollegeService {
         try{
 			connection = ConnectionJDBC.getConnection("MyDB.sqlite");
 			
-            PreparedStatement preState = connection.prepareStatement("SELECT * FROM Colleges WHERE ID LIKE " + Name);
+            PreparedStatement preState = connection.prepareStatement("SELECT * FROM Colleges WHERE ID LIKE ‘%" + Name +"%’");
 
             ResultSet rs = preState.executeQuery();
 
             while(rs.next()){
-                College tempCollege= new College(rs.getInt("ID"), rs.getString("Name"));
-                System.out.println(tempCollege.getName());
+                College tempCollege= new College(rs.getInt("ID"), rs.getString("Name"),rs.getDouble("read25"),rs.getDouble("read75"),rs.getDouble("math25"),rs.getDouble("math75"));
+
                 bundle.getList().add(tempCollege);
 
             }                            

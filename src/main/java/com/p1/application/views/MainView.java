@@ -51,22 +51,32 @@ public class MainView extends VerticalLayout{
         atr = "type=\"button\" class=\"btn-close\" data-bs-dismiss=\"offcanvas\" aria-label=\"Close\"";
         HtmlEditor.addAttribute(closeBtn, atr);
         
+
+        VerticalLayout v1= new VerticalLayout();
         HorizontalLayout HL1= new HorizontalLayout();
         TextField textField = new TextField();
         textField.getElement().setAttribute("aria-label", "search");
-        textField.setPlaceholder("Search");
+        textField.setPlaceholder("Enter College Name");
         textField.setClearButtonVisible(true);
         textField.setPrefixComponent(VaadinIcon.SEARCH.create());
         HL1.add(textField);
-
-
+        HorizontalLayout HL2= new HorizontalLayout();
+        TextField textField2 = new TextField();
+        textField2.getElement().setAttribute("aria-label", "search");
+        textField2.setPlaceholder("Enter Sat");
+        textField2.setClearButtonVisible(true);
+        textField2.setPrefixComponent(VaadinIcon.SEARCH.create());
+       
+        HL2.add(textField2);
+        v1.add(HL1);
+        v1.add(HL2);
 
 
         cat = new Catalog(bundle);
         Div catalogDiv = cat.getCatalogDiv();
 
         Button searchBtn = new Button("Search");
-        HL1.add(searchBtn);
+        v1.add(searchBtn);
         searchBtn.addClickListener( e->{
             if(!textField.getValue().equals("")){
                 bundle = CollegeService.getCollegesToDisplay(20, textField.getValue());
@@ -81,7 +91,7 @@ public class MainView extends VerticalLayout{
         header.add(title);
         header.add(closeBtn);
         sideBar.add(header);
-        sideBar.add(HL1);
+        sideBar.add(v1);
         add(btn);
         add(sideBar);
 

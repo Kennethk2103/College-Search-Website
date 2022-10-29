@@ -23,7 +23,7 @@ public class Jsonpasser {
 
 			
 			
-			URL url = new URL("https://api.data.gov/ed/collegescorecard/v1/schools.json?school.degrees_awarded.predominant=2,3,4&_fields=id,school.name&api_key=5mbVerIKAMdqhRABeXysVJFC0Z6BKRq8K5KRVrRc");
+			URL url = new URL("https://api.data.gov/ed/collegescorecard/v1/schools.json?school.degrees_awarded.predominant=2,3,4&_fields=id,school.name,latest.admissions.sat_scores.25th_percentile.critical_reading,latest.admissions.sat_scores.75th_percentile.critical_reading,latest.admissions.sat_scores.25th_percentile.math,latest.admissions.sat_scores.75th_percentile.math&api_key=5mbVerIKAMdqhRABeXysVJFC0Z6BKRq8K5KRVrRc");
 			
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			conn.setRequestMethod("GET");
@@ -55,7 +55,19 @@ public class Jsonpasser {
                 JsonNode jsonNameNode = array.get(i); 
                 JsonNode nameNode = jsonNameNode.get("school.name"); 
                 JsonNode IDNode = jsonNameNode.get("id");
-				CollegeSQL.insertIntoSQlCollege(IDNode.asInt(), nameNode.asText().replaceAll("[^a-zA-Z ]", ""));
+
+				JsonNode read25 = jsonNameNode.get("latest.admissions.sat_scores.25th_percentile.critical_reading");
+				if(read25==null || read25.asInt()==0){
+					CollegeSQL.insertIntoSQlCollege(IDNode.asInt(), nameNode.asText().replaceAll("[^a-zA-Z ]", ""), 200.0,800.0,200.0,800.0);
+
+				}
+				else{
+					JsonNode read75 = jsonNameNode.get("latest.admissions.sat_scores.75th_percentile.critical_reading");
+					JsonNode math25= jsonNameNode.get("latest.admissions.sat_scores.25th_percentile.math");
+					JsonNode math75= jsonNameNode.get("latest.admissions.sat_scores.75th_percentile.math");
+					CollegeSQL.insertIntoSQlCollege(IDNode.asInt(), nameNode.asText().replaceAll("[^a-zA-Z ]", ""), read25.asDouble(),read75.asDouble(),math25.asDouble(),math75.asDouble());
+				}
+			
 
             }
 

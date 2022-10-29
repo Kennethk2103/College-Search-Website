@@ -12,6 +12,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -31,10 +32,15 @@ public class CollegeView extends VerticalLayout{
       final int id =college.getId();
       H1 collegeTitle = new H1(college.getName());
       collegeTitle.setClassName("Title");
+      H2 lower25 = new H2("Lower 25 " +college.getLower());
+      H2 upper = new H2("Upper 75 " + college.getUpper());
+
       Button backBtn = new Button("Back to Catalog");
       backBtn.addClickListener(e ->backBtn.getUI().ifPresent(ui ->ui.navigate("")));
       Div div0 = new Div();
-   
+  
+      div0.add(lower25);
+      div0.add(upper);
       div0.add(collegeTitle);
       div0.add(backBtn);
       add(div0);
