@@ -38,8 +38,19 @@ html {
 
 .CatalogDiv{
     width: 75%;
-    margin: auto;
+    margin-right: 20%;
+    margin-left: 15%;
 }
 
    
+.searchBtn{
+    display: inline-flex;
+    font-size: 7rem;
+    line-height: 1.5;
+    top: 35%;
+    position: fixed;
+}
 
+.CatalogAndSearch{
+    width: 100%;
+}

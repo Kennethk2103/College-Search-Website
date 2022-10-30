@@ -29,9 +29,9 @@ public class MainView extends VerticalLayout{
     Div catalogDiv;
     public MainView(){
         bundle = CollegeService.startBundle();
-
-        NativeButton btn = new NativeButton("Search tab");
-        String atr="class=\"btn btn-primary\" type=\"button\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasWithBothOptions\" aria-controls=\"offcanvasWithBothOptions\"";
+        NativeButton btn = new NativeButton("›");
+        addClassName("MainView");
+        String atr="class=\"btn searchBtn\" type=\"button\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasWithBothOptions\" aria-controls=\"offcanvasWithBothOptions\"";
         HtmlEditor.addAttribute(btn, atr);
 
         Div sideBar = new Div();
@@ -63,15 +63,16 @@ public class MainView extends VerticalLayout{
         HorizontalLayout HL2= new HorizontalLayout();
         TextField textField2 = new TextField();
         textField2.getElement().setAttribute("aria-label", "search");
-        textField2.setPlaceholder("Enter Sat");
+        textField2.setPlaceholder("PlaceHolder");
         textField2.setClearButtonVisible(true);
         textField2.setPrefixComponent(VaadinIcon.SEARCH.create());
        
         HL2.add(textField2);
         v1.add(HL1);
         v1.add(HL2);
-
-
+        
+        HorizontalLayout HL3 =new HorizontalLayout();
+        HL3.addClassName("CatalogAndSearch");
         cat = new Catalog(bundle);
         catalogDiv = cat.getCatalogDiv();
         catalogDiv.addClassName("CatalogDiv");
@@ -86,19 +87,21 @@ public class MainView extends VerticalLayout{
                 bundle = CollegeService.startBundle();
             }
             cat = new Catalog(bundle);
-            remove(catalogDiv);
+            HL3.remove(catalogDiv);
             catalogDiv = cat.getCatalogDiv();
-            add(catalogDiv);
+            HL3.add(catalogDiv);
         });
 
         header.add(title);
         header.add(closeBtn);
         sideBar.add(header);
         sideBar.add(v1);
-        add(btn);
+        HL3.add(btn,catalogDiv);
+        add(HL3);
+
         add(sideBar);
 
-        add(catalogDiv);
+        
 
 
 
