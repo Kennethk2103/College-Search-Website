@@ -17,7 +17,7 @@ public class CollegeSQL {
 			statement.setQueryTimeout(30);
 			
 			statement.executeUpdate("DROP TABLE IF EXISTS Colleges");
-			statement.executeUpdate("CREATE TABLE Colleges (ID INTEGER PRIMARY KEY ,Name VARCHAR(500) NOT NULL,Read25 FLOAT ,Read75 FLOAT ,Math25 FLOAT ,Math75 FLOAT)");
+			statement.executeUpdate("CREATE TABLE Colleges (ID INTEGER PRIMARY KEY , Name VARCHAR(500) NOT NULL,Read25 FLOAT ,Read75 FLOAT ,Math25 FLOAT ,Math75 FLOAT)");
 			
 		}catch(SQLException e) {
 			e.printStackTrace();

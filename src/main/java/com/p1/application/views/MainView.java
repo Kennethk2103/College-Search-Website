@@ -26,7 +26,7 @@ public class MainView extends VerticalLayout{
     Div div0;
     CollegeBundle bundle;
     Catalog cat;
-
+    Div catalogDiv;
     public MainView(){
         bundle = CollegeService.startBundle();
 
@@ -73,7 +73,8 @@ public class MainView extends VerticalLayout{
 
 
         cat = new Catalog(bundle);
-        Div catalogDiv = cat.getCatalogDiv();
+        catalogDiv = cat.getCatalogDiv();
+        catalogDiv.addClassName("CatalogDiv");
 
         Button searchBtn = new Button("Search");
         v1.add(searchBtn);
@@ -85,7 +86,9 @@ public class MainView extends VerticalLayout{
                 bundle = CollegeService.startBundle();
             }
             cat = new Catalog(bundle);
-            replace(catalogDiv, cat.getCatalogDiv());
+            remove(catalogDiv);
+            catalogDiv = cat.getCatalogDiv();
+            add(catalogDiv);
         });
 
         header.add(title);

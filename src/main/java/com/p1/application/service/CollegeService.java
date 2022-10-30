@@ -35,11 +35,10 @@ public class CollegeService {
 			
             PreparedStatement preState = connection.prepareStatement("SELECT * FROM Colleges");
    
-
             ResultSet rs = preState.executeQuery();
 
             while(rs.next()){
-                College tempCollege= new College(rs.getInt("ID"), rs.getString("Name"),rs.getDouble("read25"),rs.getDouble("read75"),rs.getDouble("math25"),rs.getDouble("math75"));
+                College tempCollege= new College(rs.getInt("ID"), rs.getString("NAME"),rs.getDouble("read25"),rs.getDouble("read75"),rs.getDouble("math25"),rs.getDouble("math75"));
                 bundle.getList().add(tempCollege);
 
             }                            
@@ -55,8 +54,9 @@ public class CollegeService {
         Connection connection = null; 
         try{
 			connection = ConnectionJDBC.getConnection("MyDB.sqlite");
-			
-            PreparedStatement preState = connection.prepareStatement("SELECT * FROM Colleges WHERE ID LIKE ‘%" + Name +"%’");
+			String statment1="SELECT * FROM Colleges WHERE Name LIKE '%" + Name + "%'";
+            System.out.println(statment1);
+            PreparedStatement preState = connection.prepareStatement(statment1);
 
             ResultSet rs = preState.executeQuery();
 
@@ -86,7 +86,6 @@ public class CollegeService {
             CollegeSingleton.getInstance().setCollege(college);
             CollegeView view = new CollegeView();
             RouteConfiguration.forSessionScope().setRoute("CollegeInfo" + college.getId(), view.getClass());
-
         }
       
     }

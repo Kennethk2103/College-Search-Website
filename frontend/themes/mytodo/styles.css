@@ -16,8 +16,7 @@ html {
 .CollegeDisplayDiv{
 
     margin: auto;
-    width:70%;
-    height: 40%;
+
 
 
 
@@ -29,15 +28,18 @@ html {
     background-color: #424549;
     color:#7289da;
     font-weight: bold;
-    width: 100%;
     
 }
 .linkToCollege{
    cursor: pointer;
 
+
 }
 
-
+.CatalogDiv{
+    width: 75%;
+    margin: auto;
+}
 
    
 
