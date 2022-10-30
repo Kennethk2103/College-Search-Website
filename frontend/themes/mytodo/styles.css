@@ -4,9 +4,6 @@ body{
     background-color: #424549;
     color:#7289da;
     font-weight: bold;
-
-
-
 }
 
 html {
@@ -14,12 +11,7 @@ html {
 }
 
 .CollegeDisplayDiv{
-
     margin: auto;
-
-
-
-
 }
 .BackgroundDiv{
     padding-top: 1.5%;
@@ -32,8 +24,6 @@ html {
 }
 .linkToCollege{
    cursor: pointer;
-
-
 }
 
 .CatalogDiv{
@@ -49,6 +39,9 @@ html {
     line-height: 1.5;
     top: 35%;
     position: fixed;
+    padding-left: 0%;
+    margin-left: 0%;
+    color:#7289da;
 }
 
 .CatalogAndSearch{
