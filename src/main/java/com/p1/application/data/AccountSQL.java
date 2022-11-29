@@ -7,29 +7,28 @@ import java.sql.Statement;
 
 import org.springframework.stereotype.Repository;
 public class AccountSQL {
-	public AccountSQL(){
+	public static void createAccountSQL(){
 		Connection connection = null; 
 		
 		try{
-			connection = ConnectionJDBC.getConnection("C:\\Users\\Kenny\\eclipse-workspace\\Main\\MyDB.db");
+			connection = ConnectionJDBC.getConnection("AccountDB.sqlite");
 			
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);
 			
-			statement.executeUpdate("DROP TABLE IF EXISTS users");
-			statement.executeUpdate("CREATE TABLE users " 
+			statement.executeUpdate("DROP TABLE IF EXISTS Users");
+			statement.executeUpdate("CREATE TABLE Users " 
 					+ "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
 					+ "UserName VARCHAR(50) NOT NULL UNIQUE, "
 					+ "Password VARCHAR(50) NOT NULL, "
 					+ "Email varchar(50) NOT NULL UNIQUE, "
 					+ "Favorites VARCHAR(100), "
+					+ "ZIP INTEGER, "
+					+ "GPA FLOAT, "
+					+ "SAT FLOAT, "
+					+"ACT FLOAT "
 					+ ")");
 			
-			statement.executeUpdate("INSERT INTO users "
-									+ "(UserName, Password, Email, Favorites) "
-									+ "VALUES('John', 'Doe', 'jdoe' , '')");
-			
-	
 			ResultSet rs = statement.executeQuery("Select * FROM Users");
 			
 			while(rs.next()) {

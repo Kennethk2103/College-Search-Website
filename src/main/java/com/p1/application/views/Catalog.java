@@ -1,44 +1,35 @@
 package com.p1.application.views;
 
 
-import java.util.LinkedList;
-import java.util.Optional;
 
+
+import com.p1.application.data.Account;
 import com.p1.application.data.College;
 import com.p1.application.data.CollegeBundle;
+import com.p1.application.service.AcountService;
 import com.p1.application.service.CollegeService;
-import com.p1.application.service.CollegeSingleton;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.charts.model.Configuration;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.editor.Editor;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
+
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
+
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteConfiguration;
 
 @PageTitle("Catalog")
 @Route(value = "CatalogView")
 ///Main(Search through colleges and what not)
 public class Catalog extends VerticalLayout {
     Div catalogDiv;
+    Account account;
+    int numberOfPages;
+
+    public int getPages(){
+        return numberOfPages;
+    }
     public Div getCatalogDiv() {
         return catalogDiv;
     }
@@ -48,27 +39,27 @@ public class Catalog extends VerticalLayout {
         this.catalogDiv = catalogDiv;
     }
 
-
-    public Catalog(CollegeBundle bundle) {
+    
+    public Catalog(CollegeBundle bundle, int start,int length, Account account) {
         catalogDiv=new Div();
-        Div mDiv = catalogView(bundle);
-
+        Div mDiv = catalogView(bundle,start,length, account);
+        numberOfPages= (int) Math.ceil(Double.valueOf(bundle.getList().size())/Double.valueOf(length));
         add(mDiv);
         catalogDiv.add(mDiv);
         
     }
 
 
-    public static Div catalogView(CollegeBundle bundle){
+    public static Div catalogView(CollegeBundle bundle,int start,int length, Account account){
         Div mainDiv = new Div();
         int n;
-        if(bundle.getList().size()>=20){
-            n=20;
+        if((bundle.getList().size() - start-length)>=20){
+            n=length+start;
         }
         else{
             n=bundle.getList().size();
         }
-        for(int i=0;i<n;i++){
+        for(int i=start;i<n;i++){
             final int j=i;
             College college = bundle.getList().get(j);
             Div div0=new Div();
@@ -84,8 +75,7 @@ public class Catalog extends VerticalLayout {
 
           div2.addClickListener(e -> {
             CollegeService.createCollegeView(college);
-
-            div2.getUI().ifPresent(ui -> ui.navigate("CollegeInfo" +college.getId()));
+            div2.getUI().ifPresent(ui -> ui.navigate("CollegeInfo" + CollegeService.getValueFor(college, "id")));
 
         });
         
@@ -105,20 +95,21 @@ public class Catalog extends VerticalLayout {
            textDiv.add(cardDiv);
 
            H5 cardTitle = new H5();
-           cardTitle.setText(college.getName());
+           cardTitle.setText(String.valueOf(CollegeService.getValueFor(college, "id")));
            cardDiv.add(cardTitle);
 
 
            Paragraph cardText = new Paragraph();
-           cardText.setText(String.valueOf(college.getId()));
+           cardText.setText(String.valueOf(CollegeService.getValueFor(college, "school name")));
 
            cardDiv.add(cardText);
 
+           
+       
            mainDiv.add(div0);
 
     }
     return mainDiv;
     }
-    
 
 }

@@ -1,7 +1,6 @@
 package com.p1.application.service;
 
 import com.vaadin.flow.component.HtmlComponent;
-import com.vaadin.flow.component.page.Page;
 
 public class HtmlEditor {
 

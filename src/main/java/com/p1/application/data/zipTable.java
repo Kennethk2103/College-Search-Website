@@ -8,7 +8,10 @@ import java.util.Scanner;
 
 import org.springframework.stereotype.Component;
 
-
+//to do
+//implements pdf/txt storing]
+//searching
+//favoriting
 
 public class zipTable implements Serializable{
     private static File zips = new File("zips.txt");

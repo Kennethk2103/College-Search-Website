@@ -49,6 +49,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        
     </repositories>
 
     <pluginRepositories>
@@ -98,6 +99,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+        <groupId>org.vaadin.addon.audio</groupId>
+        <artifactId>AudioPlayer</artifactId>
+        <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
