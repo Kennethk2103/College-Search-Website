@@ -17,9 +17,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("SignUp")
 @Route(value = "SignUpView")
+@AnonymousAllowed
+
 public class SignUpView extends VerticalLayout{
    Account account;
     public SignUpView(){

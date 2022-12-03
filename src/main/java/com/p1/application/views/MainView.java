@@ -4,12 +4,19 @@ import java.util.LinkedList;
 
 import com.p1.application.data.Account;
 import com.p1.application.data.CollegeBundle;
+import com.p1.application.data.Regions;
+import com.p1.application.data.States;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.CollegeService;
 import com.p1.application.service.HtmlEditor;
+import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
+import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.NativeButton;
@@ -17,6 +24,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -41,9 +50,8 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         pageNum=0;
         System.out.println("Account in main view " + account);
         div0= new Div();
-        LinkedList<TextField> list= new LinkedList<>();
         bundle = CollegeService.startBundle();
-       navbar = new NavBarView(account);
+        navbar = new NavBarView(account);
 
         NativeButton btn = new NativeButton("›");
         addClassName("MainView");
@@ -59,7 +67,7 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         HtmlEditor.addAttribute(header, atr);
         sideBar.add(header);
         
-        H1 title = new H1("Title");
+        H1 title = new H1("Search By");
         atr="class=\"offcanvas-title\" id=\"offcanvasWithBothOptionsLabel\"";
         HtmlEditor.addAttribute(title, atr);
 
@@ -70,25 +78,73 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
 
         VerticalLayout v1= new VerticalLayout();
         HorizontalLayout HL1= new HorizontalLayout();
-        TextField textField = new TextField();
-        textField.getElement().setAttribute("aria-label", "search");
-        textField.setPlaceholder("Enter College Name");
-        textField.setClearButtonVisible(true);
-        textField.setPrefixComponent(VaadinIcon.SEARCH.create());
-        HL1.add(textField);
-        list.add(textField);
+        TextField textField1 = new TextField();
+        textField1.getElement().setAttribute("aria-label", "search");
+        textField1.setPlaceholder("Enter College Name");
+        textField1.setClearButtonVisible(true);
+        textField1.setPrefixComponent(VaadinIcon.SEARCH.create());
+        HL1.add(textField1);
+        
+        
+        v1.add(HL1);
+        ComboBox<States> comboBoxState = new ComboBox<>("State");
+        comboBoxState.setItems(StatesAndRegions.getInstance().getStatesList());
+        comboBoxState.setItemLabelGenerator(States::getName);
+        v1.add(comboBoxState);
+
+        ComboBox<Regions> comboBoxRegion = new ComboBox<>("Region");
+        comboBoxRegion.setItems(StatesAndRegions.getInstance().getRegionsList());
+        comboBoxRegion.setItemLabelGenerator(Regions::getName);
+        v1.add(comboBoxRegion);
+       
+        HorizontalLayout zips = new HorizontalLayout();
+        IntegerField ZipField = new IntegerField();
+        ZipField.setLabel("Enter Zip");
+        ZipField.setMax(5);
+        ZipField.setMin(5);
+        zips.add(ZipField);
+        IntegerField DistanceField = new IntegerField();
+        DistanceField.setLabel("Enter distance from zip");
+        zips.add(DistanceField);
+        v1.add(zips);
+        
+        HorizontalLayout cost = new HorizontalLayout();
+        IntegerField CostField = new IntegerField();
+        CostField.setLabel("Enter Cost");
+        cost.add(CostField);
+        RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
+        radioGroup.setItems("In state","Out of state");
+        radioGroup.setValue("In state");
+        cost.add(radioGroup);
+        v1.add(cost);
+
+        HorizontalLayout sact = new HorizontalLayout();
+        IntegerField SatField = new IntegerField();
+        SatField.setLabel("Enter Sat");
+        sact.add(SatField);
+
+        IntegerField ActField = new IntegerField();
+        ActField.setLabel("Enter ACT");
+        sact.add(ActField);
+        v1.add(sact);
+
+        HorizontalLayout checkH = new HorizontalLayout();
+        RadioButtonGroup<String> compradioGroup2 = new RadioButtonGroup<>();
+        compradioGroup2.setLabel("Degree Level");
+        compradioGroup2.setItems("2 Year","4 Year","Graduate");
+        compradioGroup2.setValue("4 Year");
+        RadioButtonGroup<String> compradioGroup = new RadioButtonGroup<>();
+        compradioGroup.setLabel("Has Comp Cci");
+        compradioGroup.setItems("Yes","Don't care");
+        compradioGroup.setValue("Don't care");
+        checkH.add(compradioGroup2);
+        checkH.add(compradioGroup);
+       
+        v1.add(checkH);
+   
+
         
 
-        HorizontalLayout HL2= new HorizontalLayout();
-        TextField textField2 = new TextField();
-        textField2.getElement().setAttribute("aria-label", "search");
-        textField2.setPlaceholder("PlaceHolder");
-        textField2.setClearButtonVisible(true);
-        textField2.setPrefixComponent(VaadinIcon.SEARCH.create());
-       
-        HL2.add(textField2);
-        v1.add(HL1);
-        v1.add(HL2);
         
         HorizontalLayout HL3 =new HorizontalLayout();
         HL3.addClassName("CatalogAndSearch");
@@ -101,12 +157,8 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         Button fowardBtn= new Button(">");
         v1.add(searchBtn);
         searchBtn.addClickListener( e->{
-            if(!textField.getValue().equals("")){
-                bundle = CollegeService.getCollegesToDisplay(list);
-            }
-            else{
-                bundle = CollegeService.startBundle();
-            }
+            System.out.println(SatField.getValue());
+            bundle = CollegeService.getCollegesToDisplay(textField1.getValue(),comboBoxState.getValue(),comboBoxRegion.getValue(), ZipField.getValue(),DistanceField.getValue(),SatField.getValue(),ActField.getValue(), CostField.getValue(), radioGroup.getValue(), compradioGroup2.getValue(), compradioGroup.getValue());
             cat = new Catalog(bundle,pageNum,20, account);
             HL3.remove(catalogDiv);
             catalogDiv = cat.getCatalogDiv();

@@ -18,9 +18,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("Catalog")
 @Route(value = "CatalogView")
+@AnonymousAllowed
 ///Main(Search through colleges and what not)
 public class Catalog extends VerticalLayout {
     Div catalogDiv;
@@ -74,9 +76,7 @@ public class Catalog extends VerticalLayout {
 
 
           div2.addClickListener(e -> {
-            CollegeService.createCollegeView(college);
-            div2.getUI().ifPresent(ui -> ui.navigate("CollegeInfo" + CollegeService.getValueFor(college, "id")));
-
+            div2.getUI().ifPresent(ui -> ui.navigate(CollegeView.class, Integer.valueOf(String.valueOf(CollegeService.getValueFor(college, "id")))));
         });
         
            div1.add(div2);

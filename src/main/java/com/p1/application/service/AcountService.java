@@ -1,5 +1,6 @@
 package com.p1.application.service;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +55,8 @@ public class AcountService {
 			account.setGPA(rs.getDouble(7));
 			account.setSAT(rs.getDouble(8));
 			account.setACT(rs.getDouble(9));
-			
+			System.out.println("id " + account.getId());
+			return account;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +76,7 @@ public class AcountService {
 			+ account.getPassword() + "' , Email='" + account.getEmail() +
 			"' , Favorites = '" + account.getFavorites() + "' , ZIP = '" + account.getZip() + "' , GPA = '"
 			+ account.getGPA() + "' , SAT = '" + account.getSAT() + "' , ACT = '"
-			+ account.getACT() + "' WHERE ID = " + account.getId();
+			+ account.getACT() +"' , File = '" + account.getFile()+ "' WHERE ID = " + account.getId();
 			System.out.println(conditions);
 			PreparedStatement preState = connection.prepareStatement(conditions);
 			preState.executeUpdate();
@@ -150,7 +152,11 @@ public class AcountService {
 		updateAccount(account);
 		return true;
 	}
-
+	public static boolean updateFile(Account account, byte[] file){
+		account.setFile(file);
+		updateAccount(account);
+		return true;
+	}
 	public static boolean passwordSatisfactory(String password) {
 		if (password.length() < 5) {
 			return false;
@@ -173,7 +179,7 @@ public class AcountService {
 		int [] output= new int[favorites.length()/6];
 
 		for(int i =0;i<favorites.length();i=i+6){
-			output[i]=Integer.valueOf(favorites.substring(i,i+6));
+			output[i/6]=Integer.valueOf(favorites.substring(i,i+6));
 		}
 
 		return output;

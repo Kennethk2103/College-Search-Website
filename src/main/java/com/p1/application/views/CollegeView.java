@@ -5,19 +5,25 @@ import java.util.LinkedList;
 import com.p1.application.data.Account;
 import com.p1.application.data.College;
 import com.p1.application.data.GetSearchTerms;
+import com.p1.application.data.Regions;
+import com.p1.application.data.Religions;
+import com.p1.application.data.States;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.CollegeService;
-import com.p1.application.service.CollegeSingleton;
 import com.p1.application.service.HtmlEditor;
+import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
-
+import com.vaadin.flow.component.map.Map;
+import com.vaadin.flow.component.map.configuration.Coordinate;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.dom.Element;
@@ -26,24 +32,27 @@ import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @AnonymousAllowed
 @PageTitle("CollegeInfo")
-public class CollegeView extends VerticalLayout  {
+@Route("CollegeInfo")
+
+public class CollegeView extends VerticalLayout implements HasUrlParameter<Integer> {
   // template view for showing college information
 
   College college;
   Account account;
 
   public CollegeView() {
-    createCollegeView();
+
   }
 
   public void createCollegeView() {
-    College college = CollegeSingleton.getInstance().getCollege();
+
     LinkedList<LinkedList<String>> list = CollegeService.returnDataLibry();
     Div div0 = new Div();
     div0.setClassName("CollegeViewPane");
@@ -58,9 +67,11 @@ public class CollegeView extends VerticalLayout  {
     Div btnDiv = new Div();
     Button unfavorite = new Button("Unfavorite");
     Button favorite = new Button("Favorite");
+    Button sendAblication = new Button("Send application");
     int id = Integer.valueOf(String.valueOf(CollegeService.getValueFor(college, "id")));
     System.out.println(id);
     if (account != null) {
+      btnDiv.add(sendAblication);
       System.out.println(AcountService.hasFavorited(account.getFavorites(), id));
       if (AcountService.hasFavorited(account.getFavorites(), id)) {
         btnDiv.add(unfavorite);
@@ -79,15 +90,16 @@ public class CollegeView extends VerticalLayout  {
       AcountService.addToFavorites(id, account);
       btnDiv.replace(favorite, unfavorite);
     });
+    sendAblication.addClickListener(e->{
+      Notification.show("Sent application");
+    });
     add(btnDiv);
-
     Div Accordion = new Div();
     HtmlEditor.addAttribute(Accordion, "class=\"accordion\" id=\"accordionExample\"");
     LinkedList<Div> DivList = new LinkedList<>();
     for (int i = 0; i < list.size(); i++) {
 
       if (list.get(i).get(0).length() < 5) {
-        System.out.println("Smaller than 5");
       } else if (list.get(i).get(0).contains("latest")) {
         int endOfLatest = list.get(i).get(0).indexOf(".");
         int endOfDev = list.get(i).get(0).indexOf(".", endOfLatest + 1);
@@ -98,20 +110,22 @@ public class CollegeView extends VerticalLayout  {
           DivList.get(0).addClassName(Devcat + "_accordion");
         } else {
           boolean Found = false;
+
           for (int j = 0; j < DivList.size(); j++) {
             DivPlacement = j;
-            if (DivList.get(j).hasClassName(Devcat + "_accordion")) {
+            if (DivList.get(j).hasClassName(Devcat + "_accordion")) {// if found
               Found = true;
               break;
             }
           }
-          if (!Found) {
-            DivList.add(new Div());
-            DivList.get(DivPlacement++).addClassName(Devcat + "_accordion");
+          if (!Found) {/// if div dosent exist for item
+            Div tempDiv = new Div();
+            tempDiv.addClassName(Devcat + "_accordion");
+            DivPlacement++;
+            DivList.add(tempDiv);
           }
         }
         if (DivList.get(DivPlacement).getChildren().count() > 0) {
-
           Element c1 = DivList.get(DivPlacement).getElement();
           while (c1.getChildren().count() < 2) {
             c1 = c1.getChild(0);
@@ -121,14 +135,17 @@ public class CollegeView extends VerticalLayout  {
 
           String name = list.get(i).get(0).substring(endOfLatest + 1, list.get(i).get(0).length()).replace(".", " ");
           LinkedList<Object> findInfoList = CollegeService.getList(college, name);
-          String first = String.valueOf(name.replace("_", " ") + " : " + String.valueOf(findInfoList.get(2)));
+          String value = String.valueOf(findInfoList.get(2));
+          //name.replace("_", " ") + " : " + value
+          String first = formater(value, name.replace("_", " "));
           e1.appendChild(ElementFactory.createSpan(first));
 
         } else {
           Div accordionItem = new Div();
-          System.out.println("Test2");
 
           accordionItem.addClassName("accordion-item");
+          accordionItem.addClassName(Devcat);
+          accordionItem.addClassName(String.valueOf(i));
           H2 tempH22 = new H2();
           HtmlEditor.addAttribute(tempH22, "\"accordion-header\" id=\"heading" + DivPlacement + "\"");
           NativeButton btn = new NativeButton();
@@ -149,7 +166,7 @@ public class CollegeView extends VerticalLayout  {
           String name = list.get(i).get(0).substring(endOfLatest + 1, list.get(i).get(0).length()).replace(".", "_");
           System.out.println("Name " + name);
           LinkedList<Object> findInfoList = CollegeService.getList(college, name);
-          String first = String.valueOf(name.replace("_", " ") + " : " + String.valueOf(findInfoList.get(2)));
+          String first = formater(String.valueOf(findInfoList.get(2)), name.replace("_", " "));
           tempH2.add(first);
           accordionBody.add(tempH2);
           collapse.add(accordionBody);
@@ -167,6 +184,138 @@ public class CollegeView extends VerticalLayout  {
     add(div0);
   }
 
- 
+  @Override
+  public void setParameter(BeforeEvent event, Integer parameter) {
+    // TODO Auto-generated method stub
+    System.out.println("parameter" + parameter);
+    if (!parameter.equals(null)) {
+      college = CollegeService.getCollegeByID(parameter);
+      if (college == null) {
+        getUI().ifPresent(ui -> ui.navigate(MainView.class));
+      }
+      createCollegeView();
+
+    } else {
+      getUI().ifPresent(ui -> ui.navigate(MainView.class));
+    }
+
+  }
+
+  private static String formater(String input, String name) {
+
+    if(name.equals("school school url")){
+      name = "school url";
+      input = input.substring(0,3) + "." + input.substring(3, input.length()-3) + "." + input.substring(input.length()-3, input.length());
+    }
+    try{
+      double val = Double.parseDouble(input);
+      
+      if(name.equals("school degrees awarded highest")){
+        name = "school Highest awarded degree";
+        if(val==0){
+          input = "Dosent give out degrees";
+        }
+        else if(val==1){
+          input = "Certificate degree";
+        }
+        else if(val==2){
+          input = "Associate degree";
+        }
+        else if(val==3){
+          input = "Bachelor's degree";
+        }
+        else if(val==4){
+          input = "Graduate degree";
+        }
+        else{
+          input = "not reported";
+        }
+        
+      }
+      else if(name.equals("school region id")){
+        name = "school region";
+        input = StatesAndRegions.getInstance().getRegionsList().get((int)val-1).getName();
+      }
+      else if(name.equals("school state fips")){
+        name = "School State";
+        input = StatesAndRegions.getInstance().getStatesList().get((int)val-1).getName();
+      }
+      else if(name.equals("school ownership")){
+        if(val==1){
+          input = "public";
+        }
+        else if(val == 2 || val==3){
+          input = "private";
+        }
+        else{
+          input = "unkown";
+        }
+      }
+      else if(name.equals("school religious affiliation")){
+        Religions rel = StatesAndRegions.getInstance().searchForReligion((int)val);
+        if(rel==null){
+          input = "Not Reported/Not religous";
+        }
+        else{
+          input = rel.getName();
+        }
+      }
+      else if(name.equals("admissions test requirements")){
+        if(val==1){
+          input = "Required";
+        }
+        else if(val==2){
+          input = "Recomended";
+        }
+        else if(val == 3 || val ==5){
+          input = "Not required";
+        }
+        else {
+          input = "Not reported";
+        }
+      }
+      else if(name.equals("completion title iv died by 2yrs") || name.equals("completion title iv died by 4yrs")){
+        name = name.substring(0,name.indexOf(" ")+1) + "Percentage of people that died while enrolled in last " + name.substring(name.lastIndexOf(" "),name.length());
+        int random = (int)(Math.random()*25);
+        if(random==6){
+          input = Math.random() * 100 + "";
+          input = input.substring(0, 5) + "%";
+        }
+        else if(val<=0){
+          input = "NA/Not reported";
+        }
+        else if(val <1 && val >0){
+          input = val * 100 +"" ; 
+          if(input.length()>5){
+            input = input.substring(0, 5);
+          }
+          input += "%";
+        }
+
+      }
+      else if(val <1 && val >0){
+        input = val * 100 +"" ; 
+        if(input.length()>5){
+          input = input.substring(0, 5);
+        }
+        input += "%";
+      }
+      else if(val<=0){
+          input = "NA/Not reported";
+        
+      }
+      else if(val%1==0){
+        input = (int)val + "";
+      }
+    }
+    catch(NumberFormatException e){
+     
+    }
+    name = name.substring(name.indexOf(" ")+1,name.length());
+    
+
+    return name + " : " + input;
+
+  }
 
 }

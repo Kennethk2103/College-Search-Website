@@ -26,7 +26,8 @@ public class AccountSQL {
 					+ "ZIP INTEGER, "
 					+ "GPA FLOAT, "
 					+ "SAT FLOAT, "
-					+"ACT FLOAT "
+					+"ACT FLOAT, "
+					+"FILE BLOB "
 					+ ")");
 			
 			ResultSet rs = statement.executeQuery("Select * FROM Users");

@@ -1,6 +1,9 @@
 package com.p1.application.views;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.LinkedList;
@@ -11,9 +14,9 @@ import org.vaadin.addon.audio.server.AudioPlayer;
 
 import com.p1.application.data.Account;
 import com.p1.application.data.CollegeBundle;
-import com.p1.application.data.zipTable;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.UserHandler;
+import com.p1.application.service.zipHandler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -39,6 +42,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+
 import org.vaadin.addon.audio.server.Stream;
 import org.vaadin.addon.audio.server.encoders.WaveEncoder;
 
@@ -46,12 +51,13 @@ import ch.qos.logback.core.joran.action.Action;
 
 @Route("UserDetails")
 @PageTitle("UserDetails")
+@AnonymousAllowed
 
 public class AccountView extends HorizontalLayout implements HasUrlParameter<Integer> {
     Account account;
     NavBarView navbar;
     LinkedList<Files> list;
-
+    byte [] file;
     public AccountView() {
 
     }
@@ -131,31 +137,36 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
         div0.add(h2, h1);
         // file dump
         Div fileDump = new Div();
-        MultiFileMemoryBuffer multiFileMemoryBuffer = new MultiFileMemoryBuffer();
-        Upload multiFileUpload = new Upload(multiFileMemoryBuffer);
-        multiFileUpload.setAcceptedFileTypes("application/pdf", ".pdf", "application/txt", ".txt");
+        MemoryBuffer memoryBuffer = new MemoryBuffer();
+        Upload singleFileUpload = new Upload(memoryBuffer);
+        singleFileUpload.setAcceptedFileTypes("application/pdf", ".pdf", "application/txt", ".txt");
 
-        multiFileUpload.addSucceededListener(event -> {
+        singleFileUpload.addSucceededListener(event -> {
             // Determine which file was uploaded
-            String fileName = event.getFileName();
 
             // Get input stream specifically for the finished file
-            InputStream fileData = multiFileMemoryBuffer
-                    .getInputStream(fileName);
+            InputStream fileData = memoryBuffer.getInputStream();
             long contentLength = event.getContentLength();
             String mimeType = event.getMIMEType();
-            Notification.show("Files Successfully added");
+            try {
+                file = fileData.readAllBytes();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
             // Do something with the file data
             // processFile(fileData, fileName, contentLength, mimeType);
         });
         H3 txt = new H3("Insert essays ");
         fileDump.add(txt);
-        fileDump.add(multiFileUpload);
+        fileDump.add(singleFileUpload);
         div0.add(fileDump);
         Button btn = new Button("Submit");
         btn.addClickListener(e -> {
             if (!zip.getValue().equals("") && !zip.getValue().equals(null) && Integer.valueOf(zip.getValue()) != 0) {
-                if (zipTable.getTable().containsKey(Integer.valueOf(zip.getValue()))) {
+                if (zipHandler.getHandler().getTable().containsKey(Integer.valueOf(zip.getValue()))) {
                     AcountService.updateZip(Integer.valueOf(zip.getValue()), account);
                 } else {
                     Notification.show("Zip is invalid");
@@ -181,6 +192,10 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
                 } else {
                     Notification.show("ACT is invalid must be inbetween 0 and 32");
                 }
+            }
+            if(file!=null){
+                AcountService.updateFile(account, file);
+                Notification.show("Updated File");
             }
 
         });

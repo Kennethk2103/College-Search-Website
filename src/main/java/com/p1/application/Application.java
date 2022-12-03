@@ -4,8 +4,9 @@ import com.p1.application.data.AccountSQL;
 import com.p1.application.data.CollegeSQL;
 import com.p1.application.data.GetSearchTerms;
 import com.p1.application.data.Jsonpasser;
-import com.p1.application.data.zipTable;
+import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
+import com.p1.application.service.zipHandler;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
@@ -33,12 +34,13 @@ public class Application implements AppShellConfigurator {
 
   
     public static void main(String[] args) {
-        zipTable.setTable(null);
+        zipHandler.getHandler();
 
         //CollegeSQL.createCollegeSQL();
         AccountSQL.createAccountSQL();
         //Jsonpasser.dataFromWeb();
         GetSearchTerms.setUp();
+        StatesAndRegions.getInstance();
         UserHandler.getInstance();
         SpringApplication.run(Application.class, args);
         

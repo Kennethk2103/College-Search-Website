@@ -92,3 +92,8 @@ html {
     display: block;
     align-self: center;
 }
+
+span{
+    width: 40%;
+    display: inline-block;
+}

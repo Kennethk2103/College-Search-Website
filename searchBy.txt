@@ -1,9 +1,10 @@
 root	id	integer
 school	name	autocomplete
-school	state	string
 school	city	autocomplete
 school	school_url	string
 school	ownership	integer
+school	region_id	integer
+school	state_fips	integer
 root	location.lat	float
 root	location.lon	float
 school	religious_affiliation	integer
@@ -27,9 +28,11 @@ admissions	act_scores.midpoint.english	float
 admissions	act_scores.midpoint.math	float
 academics	program_percentage.computer	float
 student	enrollment.all	integer
+school	degrees_awarded.highest	integer
 cost	attendance.program_year	integer
 cost	tuition.in_state	integer
 cost	tuition.out_of_state	integer
 completion	title_iv.died_by.2yrs	float
 completion	title_iv.died_by.4yrs	float
 aid	median_debt.completers.overall	float
+admissions	test_requirements	integer

@@ -18,9 +18,12 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("Login")
 @Route(value = "LoginView")
+@AnonymousAllowed
+
 public class LoginView extends VerticalLayout{
     
    Account account;
@@ -69,14 +72,14 @@ public class LoginView extends VerticalLayout{
            else if(emailField.getValue().equals("")){
               Notification.show("Email must be inputted");
            }
-           
+           System.out.println("Email field " + emailField.getValue());
            Account check = AcountService.getAccountByEmail(emailField.getValue());
-
+           System.out.println(check.getPassword());
            if(check!=null){
               if(check.getPassword().equals(passwordField1.getValue())){
                WebBrowser browser = VaadinSession.getCurrent().getBrowser();
                UserHandler.getInstance().getData().addToMap(browser.getAddress(), check);  
-               SigninBtn.getUI().ifPresent( ui -> ui.navigate(MainView.class, Integer.valueOf(account.getId())));
+               SigninBtn.getUI().ifPresent( ui -> ui.navigate(MainView.class, check.getId()));
 
               }
               else{

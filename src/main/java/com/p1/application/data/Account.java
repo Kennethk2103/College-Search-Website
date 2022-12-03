@@ -1,5 +1,7 @@
 package com.p1.application.data;
 
+import java.io.File;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
@@ -78,7 +80,13 @@ public class Account {
     public void setACT(Double aCT) {
         ACT = aCT;
     }
-    
+    private byte[] file;
+    public byte[] getFile() {
+        return file;
+    }
+    public void setFile(byte[] file) {
+        this.file = file;
+    }
 
     
 }
