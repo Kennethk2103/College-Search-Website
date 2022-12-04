@@ -1,6 +1,5 @@
 package com.p1.application.service;
 
-import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
 
@@ -34,9 +33,6 @@ public class UserHandler {
 
     public boolean tryingToBreakIn(String ip, Account account){
         if(data.getAccount(ip).getId()==account.getId()){
-            return false;
-        }
-        if(account == null){
             return false;
         }
         return true;

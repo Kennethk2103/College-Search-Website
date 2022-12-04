@@ -2,14 +2,12 @@ package com.p1.application.data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import net.bytebuddy.dynamic.scaffold.MethodRegistry.Prepared;
 
 public class CollegeSQL {
 	public static void createCollegeSQL() {
@@ -81,7 +79,6 @@ public class CollegeSQL {
 			preState.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionJDBC.closeConnection(connection);

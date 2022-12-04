@@ -4,25 +4,19 @@ import java.util.LinkedList;
 
 import com.p1.application.data.Account;
 import com.p1.application.data.College;
-import com.p1.application.data.GetSearchTerms;
-import com.p1.application.data.Regions;
 import com.p1.application.data.Religions;
-import com.p1.application.data.States;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.CollegeService;
 import com.p1.application.service.HtmlEditor;
 import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.map.Map;
-import com.vaadin.flow.component.map.configuration.Coordinate;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -30,7 +24,6 @@ import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -69,10 +62,8 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
     Button favorite = new Button("Favorite");
     Button sendAblication = new Button("Send application");
     int id = Integer.valueOf(String.valueOf(CollegeService.getValueFor(college, "id")));
-    System.out.println(id);
     if (account != null) {
       btnDiv.add(sendAblication);
-      System.out.println(AcountService.hasFavorited(account.getFavorites(), id));
       if (AcountService.hasFavorited(account.getFavorites(), id)) {
         btnDiv.add(unfavorite);
       } else {
@@ -186,7 +177,6 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
 
   @Override
   public void setParameter(BeforeEvent event, Integer parameter) {
-    // TODO Auto-generated method stub
     System.out.println("parameter" + parameter);
     if (!parameter.equals(null)) {
       college = CollegeService.getCollegeByID(parameter);
@@ -291,7 +281,6 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
           }
           input += "%";
         }
-
       }
       else if(val <1 && val >0){
         input = val * 100 +"" ; 
@@ -312,10 +301,7 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
      
     }
     name = name.substring(name.indexOf(" ")+1,name.length());
-    
-
     return name + " : " + input;
-
   }
 
 }

@@ -53,7 +53,6 @@ public class StatesAndRegions {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -70,7 +69,6 @@ public class StatesAndRegions {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -87,7 +85,6 @@ public class StatesAndRegions {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

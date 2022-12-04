@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-import org.springframework.stereotype.Service;
 
 import com.p1.application.data.Zip;
 
@@ -18,7 +17,7 @@ public class zipHandler{
 	private static File zips = new File("zips.txt");
 	private  Hashtable<Integer,Zip> table;
 	private static zipHandler singleton=null;
-	public Hashtable getTable() {
+	public Hashtable<Integer,Zip> getTable() {
 		return table;
 	}
 
@@ -38,7 +37,7 @@ public class zipHandler{
 
 	private void setTable() {
 		
-			table=new Hashtable(60000);
+			table=new Hashtable<Integer,Zip>(60000);
 			try {
 				Scanner scan = new Scanner(zips);
 				while(scan.hasNextLine()) {
@@ -46,8 +45,8 @@ public class zipHandler{
 					Zip temp = new Zip(Integer.valueOf(ziparr[0]),Double.valueOf(ziparr[1]),Double.valueOf(ziparr[2]));
 					table.put(temp.getZip(), temp);
 				}
+				scan.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		

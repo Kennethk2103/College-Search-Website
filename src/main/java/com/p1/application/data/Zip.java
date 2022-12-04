@@ -2,7 +2,6 @@ package com.p1.application.data;
 
 import java.io.Serializable;
 
-import org.springframework.stereotype.Component;
 
 public class Zip implements Serializable{
 	

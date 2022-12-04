@@ -1,9 +1,7 @@
 package com.p1.application;
 
 import com.p1.application.data.AccountSQL;
-import com.p1.application.data.CollegeSQL;
 import com.p1.application.data.GetSearchTerms;
-import com.p1.application.data.Jsonpasser;
 import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
 import com.p1.application.service.zipHandler;
@@ -14,7 +12,6 @@ import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * The entry point of the Spring Boot application.

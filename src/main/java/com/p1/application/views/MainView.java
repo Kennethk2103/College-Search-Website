@@ -1,6 +1,5 @@
 package com.p1.application.views;
 
-import java.util.LinkedList;
 
 import com.p1.application.data.Account;
 import com.p1.application.data.CollegeBundle;
@@ -11,19 +10,13 @@ import com.p1.application.service.CollegeService;
 import com.p1.application.service.HtmlEditor;
 import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
-import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -67,9 +60,9 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         HtmlEditor.addAttribute(header, atr);
         sideBar.add(header);
         
-        H1 title = new H1("Search By");
-        atr="class=\"offcanvas-title\" id=\"offcanvasWithBothOptionsLabel\"";
-        HtmlEditor.addAttribute(title, atr);
+        //H1 title = new H1("Search By");
+        //atr="class=\"offcanvas-title\" id=\"offcanvasWithBothOptionsLabel\"";
+        //HtmlEditor.addAttribute(title, atr);
 
         NativeButton closeBtn = new NativeButton();
         atr = "type=\"button\" class=\"btn-close\" data-bs-dismiss=\"offcanvas\" aria-label=\"Close\"";
@@ -78,12 +71,14 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
 
         VerticalLayout v1= new VerticalLayout();
         HorizontalLayout HL1= new HorizontalLayout();
+        Button searchBtn = new Button("Search");
         TextField textField1 = new TextField();
         textField1.getElement().setAttribute("aria-label", "search");
         textField1.setPlaceholder("Enter College Name");
         textField1.setClearButtonVisible(true);
         textField1.setPrefixComponent(VaadinIcon.SEARCH.create());
         HL1.add(textField1);
+        HL1.add(searchBtn);
         
         
         v1.add(HL1);
@@ -152,10 +147,8 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         catalogDiv = cat.getCatalogDiv();
         catalogDiv.addClassName("CatalogDiv");
 
-        Button searchBtn = new Button("Search");
         Button backBtn = new Button("<");
         Button fowardBtn= new Button(">");
-        v1.add(searchBtn);
         searchBtn.addClickListener( e->{
             System.out.println(SatField.getValue());
             bundle = CollegeService.getCollegesToDisplay(textField1.getValue(),comboBoxState.getValue(),comboBoxRegion.getValue(), ZipField.getValue(),DistanceField.getValue(),SatField.getValue(),ActField.getValue(), CostField.getValue(), radioGroup.getValue(), compradioGroup2.getValue(), compradioGroup.getValue());
@@ -173,7 +166,7 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
             HL3.add(catalogDiv);
         });
 
-        header.add(title);
+        //header.add(title);
         header.add(closeBtn);
         sideBar.add(header);
         sideBar.add(v1);
@@ -242,7 +235,6 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter Integer parameter) {
-        // TODO Auto-generated method stub
         if(parameter!=null){
             System.out.println("Parameters " + parameter);
             account = AcountService.getAccount((int)parameter);

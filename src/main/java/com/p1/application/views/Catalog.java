@@ -6,9 +6,7 @@ package com.p1.application.views;
 import com.p1.application.data.Account;
 import com.p1.application.data.College;
 import com.p1.application.data.CollegeBundle;
-import com.p1.application.service.AcountService;
 import com.p1.application.service.CollegeService;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 
 import com.vaadin.flow.component.html.H5;

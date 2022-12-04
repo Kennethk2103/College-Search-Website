@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.springframework.stereotype.Repository;
 public class AccountSQL {
 	public static void createAccountSQL(){
 		Connection connection = null; 

@@ -1,6 +1,5 @@
 package com.p1.application.data;
 
-import java.util.Hashtable;
 import java.util.TreeMap;
 
 public class UserData {

@@ -1,6 +1,5 @@
 package com.p1.application.service;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import com.p1.application.data.Account;
 import com.p1.application.data.CollegeBundle;
 import com.p1.application.data.ConnectionJDBC;
 
-import ch.qos.logback.core.boolex.Matcher;
 
 @Service
 
@@ -34,7 +32,6 @@ public class AcountService {
 			account.setACT(rs.getDouble(9));
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionJDBC.closeConnection(connection);
@@ -59,7 +56,6 @@ public class AcountService {
 			return account;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionJDBC.closeConnection(connection);
@@ -81,7 +77,6 @@ public class AcountService {
 			PreparedStatement preState = connection.prepareStatement(conditions);
 			preState.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionJDBC.closeConnection(connection);
@@ -103,7 +98,6 @@ public class AcountService {
 								+ account.getPassword() + "', '" + account.getEmail() + "' )");
 				preState.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				ConnectionJDBC.closeConnection(connection);

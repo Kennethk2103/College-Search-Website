@@ -2,24 +2,10 @@ package com.p1.application.service;
 
 import java.sql.Connection;
 import java.util.LinkedList;
-import java.util.Set;
-
-import javax.sound.midi.SysexMessage;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.LinkedList;
-
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.p1.application.data.Account;
 import com.p1.application.data.College;
 import com.p1.application.data.CollegeBundle;
 import com.p1.application.data.ConnectionJDBC;
@@ -27,12 +13,7 @@ import com.p1.application.data.GetSearchTerms;
 import com.p1.application.data.Regions;
 import com.p1.application.data.States;
 import com.p1.application.data.Zip;
-import com.p1.application.views.CollegeView;
-import com.vaadin.flow.component.HtmlComponent;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.router.RouteConfiguration;
+
 
 
 @Service
@@ -111,7 +92,6 @@ public class CollegeService {
             }
         }
         catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return new College(list1);
@@ -161,8 +141,6 @@ public class CollegeService {
     Integer Distance, Integer Sat, Integer Act,Integer cost, String instate, String degreeLevel, String hasCompSci){
         final CollegeBundle bundle = new CollegeBundle();
         Connection connection = null; 
-        System.out.println(degreeLevel);
-        System.out.println(hasCompSci);
         try{
 			connection = ConnectionJDBC.getConnection("MyDB.sqlite");
             int i =0;
@@ -240,18 +218,18 @@ public class CollegeService {
                 else{
                     statment1 += " WHERE";
                 }
-                if(degreeLevel.equals("Grauate")){
+                if(degreeLevel.equals("Graduate")){
                     i++;
 
                     statment1 += " latest_school_degrees_awarded_highest = 4";
                 }
                 else if(degreeLevel.equals("4 Year")){
                     i++;
-                    statment1 += " latest_school_degrees_awarded_highest = 3";
+                    statment1 += " latest_school_degrees_awarded_highest >= 3";
                 }
                 else {
                     i++;
-                    statment1 += " latest_school_degrees_awarded_highest = 2";
+                    statment1 += " latest_school_degrees_awarded_highest >= 2";
                 }
                
                
@@ -307,7 +285,6 @@ public class CollegeService {
                 PreparedStatement preState = connection.prepareStatement(statment1);
 
                 ResultSet rs = preState.executeQuery();
-               int k=0;
                 while(rs.next()){
                     College tempCollege= rsToCollege(rs);
                     
@@ -315,7 +292,6 @@ public class CollegeService {
                     bundle.getList().add(tempCollege);
                     
                 }   
-                System.out.println(k);
             }
             
                                      

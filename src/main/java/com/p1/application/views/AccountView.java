@@ -1,53 +1,35 @@
 package com.p1.application.views;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import org.vaadin.addon.audio.server.AudioPlayer;
+
 
 import com.p1.application.data.Account;
 import com.p1.application.data.CollegeBundle;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.UserHandler;
 import com.p1.application.service.zipHandler;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.OrderedList;
-import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
-import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.server.WebBrowser;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
-import org.vaadin.addon.audio.server.Stream;
-import org.vaadin.addon.audio.server.encoders.WaveEncoder;
-
-import ch.qos.logback.core.joran.action.Action;
 
 @Route("UserDetails")
 @PageTitle("UserDetails")
@@ -146,18 +128,13 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
 
             // Get input stream specifically for the finished file
             InputStream fileData = memoryBuffer.getInputStream();
-            long contentLength = event.getContentLength();
-            String mimeType = event.getMIMEType();
             try {
                 file = fileData.readAllBytes();
 
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
 
-            // Do something with the file data
-            // processFile(fileData, fileName, contentLength, mimeType);
         });
         H3 txt = new H3("Insert essays ");
         fileDump.add(txt);
@@ -215,13 +192,12 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
 
     @Override
     public void setParameter(BeforeEvent event, Integer parameter) {
-        // TODO Auto-generated method stub
         account = AcountService.getAccount(parameter);
         System.out.println("Jail " + account.getEmail());
         WebBrowser browser = VaadinSession.getCurrent().getBrowser();
         if (UserHandler.getInstance().getData().getAccount(browser.getAddress()) == null) {
             account = null;
-            GayBabyJail();
+            BabyJail();
         } else if (UserHandler.getInstance().getData().getAccount(browser.getAddress()).getEmail()
                 .equals(account.getEmail())) {
             navbar = new NavBarView(account);
@@ -229,12 +205,12 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
             makeView();
         } else {
             account = null;
-            GayBabyJail();
+            BabyJail();
 
         }
     }
 
-    public void GayBabyJail() {
+    public void BabyJail() {
         Page page = UI.getCurrent().getPage();
         page.setLocation("https://www.youtube.com/embed/ReVHDWOL_pI?rel=0&autoplay=1");
 
