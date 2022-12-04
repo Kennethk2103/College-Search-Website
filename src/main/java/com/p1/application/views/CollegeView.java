@@ -226,11 +226,11 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
       }
       else if(name.equals("school region id")){
         name = "school region";
-        input = StatesAndRegions.getInstance().getRegionsList().get((int)val-1).getName();
+        input = StatesAndRegions.getInstance().searchForRegionID((int)val).getName();
       }
       else if(name.equals("school state fips")){
         name = "School State";
-        input = StatesAndRegions.getInstance().getStatesList().get((int)val-1).getName();
+        input = StatesAndRegions.getInstance().searchForStateID((int)val).getName();
       }
       else if(name.equals("school ownership")){
         if(val==1){

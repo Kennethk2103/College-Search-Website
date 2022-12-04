@@ -136,6 +136,26 @@ public class StatesAndRegions {
         }
         return null;
     }
-
+    public Regions searchForRegionID(int id){
+        
+        for(int i=0;i<RegionsList.size();i++){
+            if(RegionsList.get(i).getId()==id){
+                return RegionsList.get(i);
+            }
+        }
+        return null;
+    
+    }
+    public States searchForStateID(int name){
+        
+        for(int i=0;i<StatesList.size();i++){
+            if(StatesList.get(i).getId()==name){
+                return StatesList.get(i);
+            }
+        }
+        return null;
+    
+    
+}
 }
 
