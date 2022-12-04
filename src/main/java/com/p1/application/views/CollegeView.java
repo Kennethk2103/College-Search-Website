@@ -72,8 +72,10 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
 
     }
     unfavorite.addClickListener(e -> {
-      account.setFavorites(AcountService.removeFromFavorites(account.getFavorites(), id));
-      AcountService.updateAccount(account);
+      if(account!=null){
+        account.setFavorites(AcountService.removeFromFavorites(account.getFavorites(), id));
+        AcountService.updateAccount(account);
+      }
       btnDiv.replace(unfavorite, favorite);
     });
 
