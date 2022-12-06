@@ -12,6 +12,7 @@ import com.p1.application.data.CollegeBundle;
 import com.p1.application.service.AcountService;
 import com.p1.application.service.UserHandler;
 import com.p1.application.service.zipHandler;
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -214,6 +215,14 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
         Page page = UI.getCurrent().getPage();
         page.setLocation("https://www.youtube.com/embed/ReVHDWOL_pI?rel=0&autoplay=1");
 
+    }
+    @ClientCallable
+    public void windowClosed() {
+        if(account!=null){
+            WebBrowser browser = VaadinSession.getCurrent().getBrowser();
+            UserHandler.getInstance().getData().removeFromMap(browser.getAddress());
+            System.out.println("Removed user");
+        }
     }
 
 }

@@ -10,6 +10,8 @@ import com.p1.application.service.CollegeService;
 import com.p1.application.service.HtmlEditor;
 import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
+import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.Div;
@@ -40,6 +42,9 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
     NavBarView navbar;
     int pageNum;
     public MainView(){
+        UI.getCurrent().getPage().executeJs("function closeListener() { $0.$server.windowClosed(); } " +
+        "window.addEventListener('beforeunload', closeListener); " +
+        "window.addEventListener('unload', closeListener);",getElement());
         pageNum=0;
         System.out.println("Account in main view " + account);
         div0= new Div();
@@ -258,10 +263,14 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
 
 
     }
-    
-    
-    
-
+    @ClientCallable
+    public void windowClosed() {
+        if(account!=null){
+            WebBrowser browser = VaadinSession.getCurrent().getBrowser();
+            UserHandler.getInstance().getData().removeFromMap(browser.getAddress());
+            System.out.println("Removed user");
+          }
+    }
 
 
 }

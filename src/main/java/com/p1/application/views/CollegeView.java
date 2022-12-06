@@ -10,6 +10,8 @@ import com.p1.application.service.CollegeService;
 import com.p1.application.service.HtmlEditor;
 import com.p1.application.service.StatesAndRegions;
 import com.p1.application.service.UserHandler;
+import com.vaadin.flow.component.ClientCallable;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -45,7 +47,9 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
   }
 
   public void createCollegeView() {
-
+    UI.getCurrent().getPage().executeJs("function closeListener() { $0.$server.windowClosed(); } " +
+        "window.addEventListener('beforeunload', closeListener); " +
+        "window.addEventListener('unload', closeListener);",getElement());
     LinkedList<LinkedList<String>> list = CollegeService.returnDataLibry();
     Div div0 = new Div();
     div0.setClassName("CollegeViewPane");
@@ -130,7 +134,7 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
           LinkedList<Object> findInfoList = CollegeService.getList(college, name);
           String value = String.valueOf(findInfoList.get(2));
           //name.replace("_", " ") + " : " + value
-          String first = formater(value, name.replace("_", " "));
+          String first = formater(value, name.replace("_", " ")); 
           e1.appendChild(ElementFactory.createSpan(first));
 
         } else {
@@ -306,4 +310,12 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
     return name + " : " + input;
   }
 
+  @ClientCallable
+  public void windowClosed() {
+      if(account!=null){
+        WebBrowser browser = VaadinSession.getCurrent().getBrowser();
+        UserHandler.getInstance().getData().removeFromMap(browser.getAddress());
+        System.out.println("Removed user");
+      }
+  }
 }
