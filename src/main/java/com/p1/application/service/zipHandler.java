@@ -36,7 +36,6 @@ public class zipHandler{
 	}
 
 	private void setTable() {
-		
 			table=new Hashtable<Integer,Zip>(60000);
 			try {
 				Scanner scan = new Scanner(zips);

@@ -46,7 +46,6 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         "window.addEventListener('beforeunload', closeListener); " +
         "window.addEventListener('unload', closeListener);",getElement());
         pageNum=0;
-        System.out.println("Account in main view " + account);
         div0= new Div();
         bundle = CollegeService.startBundle();
         navbar = new NavBarView(account);
@@ -155,7 +154,6 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         Button backBtn = new Button("<");
         Button fowardBtn= new Button(">");
         searchBtn.addClickListener( e->{
-            System.out.println(SatField.getValue());
             bundle = CollegeService.getCollegesToDisplay(textField1.getValue(),comboBoxState.getValue(),comboBoxRegion.getValue(), ZipField.getValue(),DistanceField.getValue(),SatField.getValue(),ActField.getValue(), CostField.getValue(), radioGroup.getValue(), compradioGroup2.getValue(), compradioGroup.getValue());
             cat = new Catalog(bundle,pageNum,20, account);
             HL3.remove(catalogDiv);
@@ -241,12 +239,10 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter Integer parameter) {
         if(parameter!=null){
-            System.out.println("Parameters " + parameter);
             account = AcountService.getAccount((int)parameter);
             WebBrowser browser = VaadinSession.getCurrent().getBrowser();
             if(account.getEmail()!=null){
                 if(UserHandler.getInstance().getData().getAccount(browser.getAddress()).getEmail().equals(account.getEmail())){
-                    System.out.println("Account email : " + account.getEmail());
                     remove(navbar.getNav());
                     navbar = new NavBarView(account);
                     add(navbar.getNav());
@@ -268,7 +264,6 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
         if(account!=null){
             WebBrowser browser = VaadinSession.getCurrent().getBrowser();
             UserHandler.getInstance().getData().removeFromMap(browser.getAddress());
-            System.out.println("Removed user");
           }
     }
 

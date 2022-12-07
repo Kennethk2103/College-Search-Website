@@ -161,7 +161,6 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
 
           Span tempH2 = new Span();
           String name = list.get(i).get(0).substring(endOfLatest + 1, list.get(i).get(0).length()).replace(".", "_");
-          System.out.println("Name " + name);
           LinkedList<Object> findInfoList = CollegeService.getList(college, name);
           String first = formater(String.valueOf(findInfoList.get(2)), name.replace("_", " "));
           tempH2.add(first);
@@ -183,7 +182,6 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
 
   @Override
   public void setParameter(BeforeEvent event, Integer parameter) {
-    System.out.println("parameter" + parameter);
     if (!parameter.equals(null)) {
       college = CollegeService.getCollegeByID(parameter);
       if (college == null) {
@@ -315,7 +313,6 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
       if(account!=null){
         WebBrowser browser = VaadinSession.getCurrent().getBrowser();
         UserHandler.getInstance().getData().removeFromMap(browser.getAddress());
-        System.out.println("Removed user");
       }
   }
 }

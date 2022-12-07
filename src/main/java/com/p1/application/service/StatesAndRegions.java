@@ -11,6 +11,8 @@ import com.p1.application.data.States;
 
 public class StatesAndRegions {
     
+    //need to be linked list to keep alphabetical order of lists
+    //search is no bueno but is only 70 values to search max
     private static StatesAndRegions singleton =null;
     private LinkedList<States> StatesList;
     private LinkedList<Regions> RegionsList;
@@ -26,10 +28,27 @@ public class StatesAndRegions {
     }
 
 
-    private StatesAndRegions(){
-        setUpRegions();
-        setUpStates();
-        setUpReligions();
+    private StatesAndRegions(){///threading to help speed up setting up proccess
+        Thread t1 = new Thread(()->{
+            setUpRegions();
+        });
+        Thread t2 = new Thread(()->{
+            setUpStates();
+        });
+        Thread t3 = new Thread(()->{
+            setUpReligions();
+        });
+
+        t1.start();
+        t2.start();
+        t3.start();
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -73,7 +92,7 @@ public class StatesAndRegions {
 		}
     }
     private void setUpReligions(){
-        File file = new File("religousAffliction.txt");
+        File file = new File("ReligionsFile.txt");
         religionsList = new LinkedList<>();
 		try {
 			Scanner scan = new Scanner(file);
