@@ -6,15 +6,37 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+/**
+ * The Class GetSearchTerms.
+ */
 @EntityScan
 public class GetSearchTerms {
+	
+	/** The Terms. */
 	private static LinkedList<LinkedList<String>> Terms;
+	
+	/**
+	 * Gets the data for each search term .
+	 *
+	 * @return the terms
+	 */
 	public static LinkedList<LinkedList<String>> getTerms() {
 		return Terms;
 	}
+	
+	/**
+	 * Sets the data for a search term.
+	 *
+	 * @param terms the new terms
+	 */
 	public static void setTerms(LinkedList<LinkedList<String>> terms) {
 		Terms = terms;
 	}
+	
+	/**
+	 * Sets the up search terms.
+	 */
 	public static void setUp(){ //first collum is name, second is datatype
 		int i=0;
         Terms = new LinkedList<>();

@@ -2,8 +2,17 @@ package com.p1.application.service;
 
 import com.vaadin.flow.component.HtmlComponent;
 
+/**
+ * The Class HtmlEditor.
+ */
 public class HtmlEditor {
 
+    /**
+     * Adds attributes to HTML component automatically using string.
+     *
+     * @param component the component
+     * @param atr the Attributes
+     */
     public static void addAttribute(HtmlComponent component, String atr){
         String atr2 = atr.replaceAll("\"", "");
         String [] arr= atr2.split(" ");

@@ -13,10 +13,19 @@ import com.p1.application.data.CollegeBundle;
 import com.p1.application.data.ConnectionJDBC;
 
 
+/**
+ * The Class AcountService.
+ */
 @Service
 
 public class AcountService {
 
+	/**
+	 * Gets the account.
+	 *
+	 * @param idOfUser the id of user
+	 * @return the account
+	 */
 	public static Account getAccount(int idOfUser) {
 		Connection connection = null;
 		Account account = null;
@@ -39,6 +48,12 @@ public class AcountService {
 		return account;
 	}
 
+	/**
+	 * Gets the account by email.
+	 *
+	 * @param email the email
+	 * @return the account by email
+	 */
 	public static Account getAccountByEmail(String email) {
 		Connection connection = null;
 		Account account = null;
@@ -63,6 +78,11 @@ public class AcountService {
 		return account;
 	}
 
+	/**
+	 * Update account.
+	 *
+	 * @param account the account
+	 */
 	public static void updateAccount(Account account) {
 		Connection connection = null;
 
@@ -84,6 +104,12 @@ public class AcountService {
 
 	}
 
+	/**
+	 * Adds the account.
+	 *
+	 * @param account the account
+	 * @return true, if successful
+	 */
 	public static boolean AddAccount(Account account) {
 	
 		if(getAccountByEmail(account.getEmail()).equals(null)){
@@ -110,6 +136,13 @@ public class AcountService {
 
 	}
 
+	/**
+	 * Adds the to favorites.
+	 *
+	 * @param idOfCollege the id of college
+	 * @param account the account
+	 * @return true, if successful
+	 */
 	public static boolean addToFavorites(int idOfCollege, Account account) {
 		if(account.getFavorites()==null){
 			account.setFavorites("");
@@ -124,33 +157,77 @@ public class AcountService {
 		}
 	}
 
+	/**
+	 * Update gpa.
+	 *
+	 * @param gpa the gpa
+	 * @param account the account
+	 * @return true, if successful
+	 */
 	public static boolean updateGpa(double gpa, Account account) {
 		account.setGPA(gpa);
 		updateAccount(account);
 		return true;
 	}
 
+	/**
+	 * Update zip.
+	 *
+	 * @param zip the zip
+	 * @param account the account
+	 * @return true, if successful
+	 */
 	public static boolean updateZip(int zip, Account account) {
 		account.setZip(zip);
 		updateAccount(account);
 		return true;
 	}
 
+	/**
+	 * Update sat scores.
+	 *
+	 * @param account the account
+	 * @param sat the sat
+	 * @return true, if successful
+	 */
 	public static boolean updateSatScores(Account account, double sat) {
 		account.setSAT(sat);
 		updateAccount(account);
 		return true;
 	}
+	
+	/**
+	 * Update ACT scores.
+	 *
+	 * @param account the account
+	 * @param ACT the act
+	 * @return true, if successful
+	 */
 	public static boolean updateACTScores(Account account, double ACT){
 		account.setACT(ACT);
 		updateAccount(account);
 		return true;
 	}
+	
+	/**
+	 * Update file.
+	 *
+	 * @param account the account
+	 * @param file the file
+	 * @return true, if successful
+	 */
 	public static boolean updateFile(Account account, byte[] file){
 		account.setFile(file);
 		updateAccount(account);
 		return true;
 	}
+	
+	/**
+	 * Password satisfactory.
+	 *
+	 * @param password the password
+	 * @return true, if successful
+	 */
 	public static boolean passwordSatisfactory(String password) {
 		if (password.length() < 5) {
 			return false;
@@ -169,6 +246,13 @@ public class AcountService {
 		}
 		return true;
 	}
+	
+	/**
+	 * Gets the favorites.
+	 *
+	 * @param favorites the favorites
+	 * @return the favorites
+	 */
 	public static int[] getFavorites(String favorites){
 		int [] output= new int[favorites.length()/6];
 
@@ -179,6 +263,13 @@ public class AcountService {
 		return output;
 	}
 
+	/**
+	 * Checks for favorited.
+	 *
+	 * @param favorites the favorites
+	 * @param id the id
+	 * @return true, if successful
+	 */
 	public static boolean hasFavorited(String favorites, int id){
 		if(favorites==null){
 			return false;
@@ -196,6 +287,13 @@ public class AcountService {
 		return false;
 	}
 
+	/**
+	 * Removes the from favorites.
+	 *
+	 * @param favorites the favorites
+	 * @param id the id
+	 * @return the string
+	 */
 	public static String removeFromFavorites(String favorites, int id){
 		String output="";
 		int [] a = getFavorites(favorites);
@@ -208,6 +306,12 @@ public class AcountService {
 		return output;
 	}
 
+	/**
+	 * Gets the favorites bundle.
+	 *
+	 * @param favorites the favorites
+	 * @return the favorites bundle
+	 */
 	public static CollegeBundle getFavoritesBundle(String favorites){
 		CollegeBundle bundle = new CollegeBundle();
 		int [] a = getFavorites(favorites);

@@ -51,12 +51,6 @@ public class NavBarView extends VerticalLayout{
         });
         containerFluid.add(btn);
 
-
-
-
-
-
-
     }
     public Nav getNav(){
         return mainNav;

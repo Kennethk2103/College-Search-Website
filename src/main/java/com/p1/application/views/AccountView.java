@@ -198,7 +198,7 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
         WebBrowser browser = VaadinSession.getCurrent().getBrowser();
         if (UserHandler.getInstance().getData().getAccount(browser.getAddress()) == null) {
             account = null;
-            BabyJail();
+            securityProtocol();
         } else if (UserHandler.getInstance().getData().getAccount(browser.getAddress()).getEmail()
                 .equals(account.getEmail())) {
             navbar = new NavBarView(account);
@@ -206,12 +206,12 @@ public class AccountView extends HorizontalLayout implements HasUrlParameter<Int
             makeView();
         } else {
             account = null;
-            BabyJail();
+            securityProtocol();
 
         }
     }
 
-    public void BabyJail() {
+    public void securityProtocol() {
         Page page = UI.getCurrent().getPage();
         page.setLocation("https://www.youtube.com/embed/ReVHDWOL_pI?rel=0&autoplay=1");
 

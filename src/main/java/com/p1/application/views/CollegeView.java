@@ -171,12 +171,14 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
         }
       }
     }
+    Div bottom = new Div();///add anything you want to add after acordian here
     for (int i = 0; i < DivList.size(); i++) {
       Accordion.add(DivList.get(i));
     }
     div0.add(collegeTitle);
     div0.add(btnDiv);
     div0.add(Accordion);
+    div0.add(bottom);
     add(div0);
   }
 
@@ -302,7 +304,7 @@ public class CollegeView extends VerticalLayout implements HasUrlParameter<Integ
       }
     }
     catch(NumberFormatException e){
-     
+    	
     }
     name = name.substring(name.indexOf(" ")+1,name.length());
     return name + " : " + input;

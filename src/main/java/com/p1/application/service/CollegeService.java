@@ -16,11 +16,23 @@ import com.p1.application.data.Zip;
 
 
 
+/**
+ * The Class CollegeService.
+ */
 @Service
 
 public class CollegeService {
+    
+    /** The list. */
     static LinkedList<LinkedList<String>> list = GetSearchTerms.getTerms();
     
+    /**
+     * Gets the list.
+     *
+     * @param college the college
+     * @param name the name
+     * @return the list
+     */
     public static LinkedList<Object> getList(College college,String name){
         name=name.replace(".", "_");
         name=name.replace("\t", " ");
@@ -34,6 +46,13 @@ public class CollegeService {
         }
     }
 
+    /**
+     * Gets the data type for.
+     *
+     * @param college the college
+     * @param name Nameo of field
+     * @return the data type
+     */
     public static String getDataTypeFor(College college,String name){
         LinkedList<Object> list = getList(college, name.toLowerCase());
         if(list!=null){
@@ -43,12 +62,25 @@ public class CollegeService {
             return null;
         }
     }
+    
+    /**
+     * Gets the value for a field.
+     *
+     * @param college the college
+     * @param name of field
+     * @return the value of that field
+     */
     public static Object getValueFor(College college, String name){ 
 
         LinkedList<Object> list = getList(college,name.toLowerCase());
         return list.get(2);
     }
 
+    /**
+     * Creates college bundle on program start.
+     *
+     * @return the college bundle
+     */
     public static CollegeBundle startBundle(){
         final CollegeBundle bundle = new CollegeBundle();
         Connection connection = null; 
@@ -72,6 +104,12 @@ public class CollegeService {
         return bundle;
     }
 
+    /**
+     * Result set to college.
+     *
+     * @param rs the Result set of college
+     * @return the college
+     */
     public static College rsToCollege(ResultSet rs){
         LinkedList<LinkedList<Object>> list1 = new LinkedList<>();
         try{
@@ -98,10 +136,20 @@ public class CollegeService {
     }
 
 
+    /**
+     * Return data libry.
+     *
+     * @return the linked list
+     */
     public static LinkedList<LinkedList<String>> returnDataLibry(){
         return list;
     }
 
+    /**
+     * Sort data libry.
+     *
+     * @return the linked list
+     */
     public static LinkedList<LinkedList<String>> sortDataLibry(){/// first linkedlist divides by devcat, second holds by dev name, third holds data type
         LinkedList<LinkedList<String>> librySorted = new LinkedList<>();
         for(int i =0;i<list.size();i++){
@@ -116,6 +164,12 @@ public class CollegeService {
     }
 
 
+    /**
+     * Gets the college by ID.
+     *
+     * @param id the id
+     * @return the college with id
+     */
     public static College getCollegeByID(int id){
         Connection connection = null; 
         try{
@@ -137,6 +191,22 @@ public class CollegeService {
 
     }
 
+    /**
+     * Gets the colleges to display.
+     *
+     * @param name the name
+     * @param state the state
+     * @param region the region
+     * @param zipI the zip
+     * @param Distance the distance
+     * @param Sat the sat
+     * @param Act the act
+     * @param cost the cost
+     * @param instate the instate
+     * @param degreeLevel the degree level
+     * @param hasCompSci the percentage of comp sci majors at college
+     * @return the colleges to display
+     */
     public static CollegeBundle getCollegesToDisplay(String name, States state, Regions region, Integer zipI,
     Integer Distance, Integer Sat, Integer Act,Integer cost, String instate, String degreeLevel, String hasCompSci){
         final CollegeBundle bundle = new CollegeBundle();
@@ -248,32 +318,36 @@ public class CollegeService {
                 }
             }
             if(Distance!=null && zipI!=null){
-                if(i>0){
-                    statment1 += " AND";
-                }
-                else{
-                    statment1 += " WHERE";
-                }
-                i++;
-                Zip zip = zipHandler.getHandler().getZip(zipI);
-                double distance = zipHandler.getDistance(Distance);
-                double distance1 = zip.getLatitude()-distance;
-                double distance2 = zip.getLatitude()+distance;
-                double distance3 = zip.getLongitude()-distance;
-                double distance4 = zip.getLongitude()+distance;
+            	Zip zip = zipHandler.getHandler().getZip(zipI);
+            	if(zip!=null) {
+            		 if(i>0){
+                         statment1 += " AND";
+                     }
+                     else{
+                         statment1 += " WHERE";
+                     }
+                     i++;
+                     
+                     double distance = zipHandler.getDistance(Distance);
+                     double distance1 = zip.getLatitude()-distance;
+                     double distance2 = zip.getLatitude()+distance;
+                     double distance3 = zip.getLongitude()-distance;
+                     double distance4 = zip.getLongitude()+distance;
 
-                if(distance1>distance2){
-                    statment1 += " location_lat > " + distance4 + " AND location_lat<"+ distance3;
-                }
-                else{
-                    statment1 += " location_lat > " + distance3 + " AND location_lat<"+ distance4;
-                }
-                if(distance3>distance4){
-                    statment1 += " AND location_lon > " + distance2 + " AND location_lon<"+ distance1;
-                }
-                else{
-                    statment1 += " AND location_lon > " + distance1 + " AND location_lon<"+ distance2;
-                }
+                     if(distance1>distance2){
+                         statment1 += " location_lat > " + distance4 + " AND location_lat<"+ distance3;
+                     }
+                     else{
+                         statment1 += " location_lat > " + distance3 + " AND location_lat<"+ distance4;
+                     }
+                     if(distance3>distance4){
+                         statment1 += " AND location_lon > " + distance2 + " AND location_lon<"+ distance1;
+                     }
+                     else{
+                         statment1 += " AND location_lon > " + distance1 + " AND location_lon<"+ distance2;
+                     }
+            	}
+               
 
             }
 
@@ -303,6 +377,13 @@ public class CollegeService {
         return bundle;
 
     }
+    
+    /**
+     * Gets the colleges to display.
+     *
+     * @param a the ID
+     * @return the colleges to display
+     */
     public static CollegeBundle getCollegesToDisplay(int a){
         Connection connection = null; 
         CollegeBundle bundle;

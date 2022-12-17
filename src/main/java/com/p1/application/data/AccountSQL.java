@@ -5,7 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The Class AccountSQL.
+ */
 public class AccountSQL {
+	
+	/**
+	 * Creates the account SQL.
+	 */
 	public static void createAccountSQL(){
 		Connection connection = null; 
 		

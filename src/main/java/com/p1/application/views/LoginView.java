@@ -42,7 +42,6 @@ public class LoginView extends VerticalLayout{
        emailField.setClearButtonVisible(true);
 
 
-
        PasswordField passwordField1 = new PasswordField();
        passwordField1.setLabel("Password");
        passwordField1.setHelperText("Input a password");

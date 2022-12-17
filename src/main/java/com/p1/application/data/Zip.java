@@ -39,8 +39,5 @@ public class Zip implements Serializable{
 		this.longitude = double1;
 		this.latitude = double2;
 	}
-	
-	
-	
 
 }

@@ -249,6 +249,7 @@ public class MainView extends VerticalLayout implements HasUrlParameter<Integer>
                 }
             }
         }
+        
         else{
             WebBrowser browser = VaadinSession.getCurrent().getBrowser();
             account = UserHandler.getInstance().getData().getAccount(browser.getAddress());
